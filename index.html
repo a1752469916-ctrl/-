@@ -1,438 +1,1016 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Deutschklasse · 德语精品课堂</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Deutschklasse · 德语精品课堂</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   RESET & TOKENS
+═══════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1a1a2e; --ink-lt:#3d3d5c;
+  --teal:#1b4f72; --teal-mid:#2471a3; --teal-lt:#d6eaf8;
+  --gold:#b7860b; --gold-lt:#fef9e7;
+  --cream:#f5f0e8; --cream2:#ede8df; --white:#fff;
+  --border:#ddd8d0;
+  --sh-sm:0 2px 8px rgba(26,26,46,.08);
+  --sh-md:0 8px 32px rgba(26,26,46,.13);
+  --sh-lg:0 20px 60px rgba(26,26,46,.18);
+  --r:12px; --r-lg:20px;
+  --serif:'EB Garamond','Noto Serif SC',Georgia,serif;
+  --display:'Playfair Display','Noto Serif SC',Georgia,serif;
+  --body:'Noto Serif SC','EB Garamond',Georgia,serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);color:var(--ink);background:var(--white);line-height:1.75;overflow-x:hidden}
+
+/* ═══════════════════════════════════════════
+   UTILS
+═══════════════════════════════════════════ */
+.container{max-width:1160px;margin:0 auto;padding:0 2rem}
+.section{padding:5.5rem 0}
+.sec-hd{text-align:center;margin-bottom:3.5rem}
+.eyebrow{font-family:var(--serif);font-style:italic;color:var(--teal-mid);letter-spacing:.15em;font-size:.8rem;text-transform:uppercase;margin-bottom:.5rem}
+.sec-title{font-family:var(--display);font-size:clamp(1.8rem,4vw,2.7rem);font-weight:700;line-height:1.2;margin-bottom:.9rem}
+.sec-desc{color:var(--ink-lt);max-width:520px;margin:0 auto;font-size:.95rem}
+
+/* ═══════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════ */
+.btn{display:inline-flex;align-items:center;gap:.45rem;padding:.78rem 1.75rem;border-radius:40px;font-family:var(--body);font-size:.93rem;font-weight:600;text-decoration:none;border:2px solid transparent;cursor:pointer;transition:all .22s ease;white-space:nowrap}
+.btn-primary{background:var(--teal);color:#fff;border-color:var(--teal)}
+.btn-primary:hover{background:var(--teal-mid);border-color:var(--teal-mid);transform:translateY(-2px);box-shadow:0 8px 24px rgba(27,79,114,.35)}
+.btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+.btn-ghost:hover{background:rgba(255,255,255,.12);border-color:#fff}
+.btn-outline{background:transparent;color:var(--teal);border-color:var(--teal)}
+.btn-outline:hover{background:var(--teal);color:#fff}
+.btn-sm{padding:.52rem 1.25rem;font-size:.86rem}
+
+/* ═══════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════ */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 0;transition:background .3s,box-shadow .3s,padding .3s}
+.nav.scrolled{background:rgba(255,255,255,.96);backdrop-filter:blur(14px);box-shadow:var(--sh-sm);padding:.65rem 0}
+.nav-inner{max-width:1160px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{text-decoration:none;display:flex;flex-direction:column;line-height:1.15}
+.nav-logo-de{font-family:var(--display);font-size:1.2rem;font-weight:700;color:#fff;transition:color .3s}
+.nav-logo-zh{font-size:.68rem;letter-spacing:.1em;color:rgba(255,255,255,.6);transition:color .3s}
+.nav.scrolled .nav-logo-de{color:var(--teal)}
+.nav.scrolled .nav-logo-zh{color:var(--ink-lt)}
+.nav-links{list-style:none;display:flex;gap:1.8rem;align-items:center}
+.nav-links a{text-decoration:none;color:rgba(255,255,255,.85);font-size:.9rem;transition:color .2s}
+.nav.scrolled .nav-links a{color:var(--ink-lt)}
+.nav-links a:hover{color:#fff}
+.nav.scrolled .nav-links a:hover{color:var(--teal)}
+.nav-cta{background:var(--gold)!important;color:#fff!important;padding:.42rem 1.15rem!important;border-radius:30px;font-weight:600!important}
+.nav-cta:hover{background:#9a7009!important}
+.nav-toggle{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:.3rem}
+.nav-toggle span{display:block;width:24px;height:2px;background:#fff;transition:background .3s}
+.nav.scrolled .nav-toggle span{background:var(--ink)}
+
+/* ═══════════════════════════════════════════
+   HERO  — deep teal gradient + SVG texture
+═══════════════════════════════════════════ */
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#0d2b45 0%,#1b4f72 45%,#0e2133 100%)}
+.hero-bg{position:absolute;inset:0;pointer-events:none}
+/* subtle halftone dots */
+.hero-bg::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);
+  background-size:32px 32px;
+}
+/* diagonal lines */
+.hero-bg::after{
+  content:'';position:absolute;inset:0;
+  background-image:repeating-linear-gradient(
+    -55deg,
+    transparent,transparent 40px,
+    rgba(255,255,255,.025) 40px,rgba(255,255,255,.025) 41px
+  );
+}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none}
+.hero-orb-1{width:520px;height:520px;background:rgba(36,113,163,.4);top:-120px;right:-60px}
+.hero-orb-2{width:380px;height:380px;background:rgba(183,134,11,.18);bottom:-100px;left:25%}
+.hero-inner{position:relative;z-index:1;max-width:1160px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:3rem;padding:8.5rem 2rem 5rem}
+.hero-eyebrow{font-family:var(--serif);font-style:italic;color:rgba(255,255,255,.55);letter-spacing:.2em;font-size:.78rem;text-transform:uppercase;margin-bottom:1.1rem}
+.hero-title{font-family:var(--display);font-size:clamp(2rem,5vw,3.6rem);font-weight:700;color:#fff;line-height:1.15;margin-bottom:1.3rem}
+.hero-title em{font-style:italic;color:#a8d8f5}
+.hero-sub{color:rgba(255,255,255,.72);font-size:.97rem;line-height:1.9;margin-bottom:2rem;max-width:460px}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2.8rem}
+.hero-stats{display:flex;align-items:center;gap:1.4rem}
+.stat-num{display:block;font-family:var(--display);font-size:1.55rem;font-weight:700;color:#fff;line-height:1}
+.stat-label{display:block;font-size:.72rem;color:rgba(255,255,255,.5);letter-spacing:.08em;margin-top:.2rem}
+.stat-div{width:1px;height:34px;background:rgba(255,255,255,.18)}
+.hero-card{background:rgba(255,255,255,.1);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.17);border-radius:var(--r-lg);padding:1.7rem;margin-bottom:1.4rem;position:relative}
+.hc-label{font-size:.72rem;color:rgba(255,255,255,.55);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.45rem}
+.hc-title{font-family:var(--display);font-size:1.3rem;color:#fff;font-weight:700;margin-bottom:.35rem}
+.hc-meta{font-size:.83rem;color:rgba(255,255,255,.6)}
+.hc-badge{position:absolute;top:1.1rem;right:1.1rem;background:#27ae60;color:#fff;font-size:.7rem;padding:.18rem .6rem;border-radius:20px;font-weight:600}
+.hero-quote{background:rgba(183,134,11,.15);border-left:3px solid var(--gold);border-radius:0 var(--r) var(--r) 0;padding:1.1rem 1.4rem}
+.hero-quote p{font-family:var(--serif);font-style:italic;font-size:1.02rem;color:rgba(255,255,255,.88);margin-bottom:.25rem}
+.hero-quote span{font-size:.8rem;color:rgba(255,255,255,.5)}
+
+/* ═══════════════════════════════════════════
+   QUICK-ACCESS PORTAL ROW
+═══════════════════════════════════════════ */
+.portals{
+  position:relative;z-index:10;
+  background:var(--white);
+  box-shadow:0 8px 40px rgba(26,26,46,.12);
+}
+.portals-inner{
+  max-width:1160px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(6,1fr);
+}
+.portal-item{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:.55rem;padding:1.5rem 1rem;
+  text-decoration:none;
+  color:var(--ink);
+  border-right:1px solid var(--border);
+  transition:background .2s,color .2s;
+  position:relative;
+}
+.portal-item:last-child{border-right:none}
+.portal-item::after{
+  content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:0;height:3px;background:var(--teal);border-radius:3px 3px 0 0;
+  transition:width .25s ease;
+}
+.portal-item:hover{background:var(--teal-lt);color:var(--teal)}
+.portal-item:hover::after{width:60%}
+.portal-icon{
+  width:48px;height:48px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;
+  background:var(--cream);
+  transition:background .2s,transform .2s;
+}
+.portal-item:hover .portal-icon{background:rgba(27,79,114,.12);transform:scale(1.08)}
+.portal-label{font-size:.82rem;font-weight:600;text-align:center;line-height:1.3}
+.portal-sub{font-size:.7rem;color:var(--ink-lt);text-align:center}
+.portal-item:hover .portal-sub{color:var(--teal-mid)}
+
+/* ═══════════════════════════════════════════
+   LEVELS STRIP
+═══════════════════════════════════════════ */
+.levels{
+  background:
+    repeating-linear-gradient(90deg,rgba(27,79,114,.04) 0px,rgba(27,79,114,.04) 1px,transparent 1px,transparent 80px),
+    var(--cream);
+  border-bottom:1px solid var(--border);
+  padding:1.6rem 0;
+}
+.levels-track{display:flex;align-items:center;justify-content:center;gap:.9rem;flex-wrap:wrap}
+.lv-item{display:flex;align-items:center;gap:.55rem;color:var(--ink-lt);font-size:.86rem;opacity:.45;transition:opacity .2s}
+.lv-item--on{opacity:1}
+.lv-badge{background:var(--teal);color:#fff;font-family:var(--display);font-weight:700;font-size:.78rem;padding:.18rem .52rem;border-radius:5px}
+.lv-item:not(.lv-item--on) .lv-badge{background:var(--border);color:var(--ink-lt)}
+.lv-arrow{color:var(--border);font-size:.95rem}
+
+/* ═══════════════════════════════════════════
+   COURSES — warm parchment bg
+═══════════════════════════════════════════ */
+.courses{
+  background:
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231b4f72' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
+    var(--cream);
+}
+.courses-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+.course-card{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);padding:1.75rem;display:flex;flex-direction:column;transition:box-shadow .25s,transform .25s}
+.course-card:hover{box-shadow:var(--sh-md);transform:translateY(-4px)}
+.course-card--feat{background:linear-gradient(140deg,var(--teal) 0%,#0e2954 100%);color:#fff;border-color:var(--teal)}
+.course-card--bundle{background:var(--gold-lt);border-color:var(--gold);grid-column:span 2;flex-direction:row;align-items:flex-start;gap:2rem}
+.course-card--bundle .course-footer{margin-top:auto}
+.card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.95rem}
+.clevel{font-family:var(--display);font-weight:700;font-size:.82rem;background:var(--teal-lt);color:var(--teal);padding:.18rem .62rem;border-radius:5px}
+.course-card--feat .clevel{background:rgba(255,255,255,.18);color:#fff}
+.ctag{font-size:.7rem;font-weight:600;padding:.18rem .58rem;border-radius:20px;background:#e74c3c;color:#fff}
+.ctag-new{background:#27ae60}
+.ctag-gold{background:var(--gold);color:#fff}
+.cname{font-family:var(--display);font-size:1.18rem;font-weight:700;margin-bottom:.7rem;line-height:1.35}
+.cdesc{font-size:.87rem;line-height:1.78;color:var(--ink-lt);margin-bottom:1rem;flex:1}
+.course-card--feat .cdesc{color:rgba(255,255,255,.78)}
+.cpoints{list-style:none;margin-bottom:1.3rem;display:flex;flex-direction:column;gap:.38rem}
+.cpoints li{font-size:.83rem;color:var(--ink-lt)}
+.course-card--feat .cpoints li{color:rgba(255,255,255,.78)}
+/* detail toggle */
+.det-toggle{background:none;border:none;cursor:pointer;font-family:var(--body);font-size:.81rem;font-weight:600;color:rgba(255,255,255,.65);padding:.45rem 0;margin-bottom:.4rem;transition:color .2s;text-align:left}
+.course-card:not(.course-card--feat) .det-toggle{color:var(--teal-mid)}
+.det-toggle:hover,.det-toggle.open{color:#fff}
+.course-card:not(.course-card--feat) .det-toggle:hover,.course-card:not(.course-card--feat) .det-toggle.open{color:var(--teal)}
+.det-panel{max-height:0;overflow:hidden;transition:max-height .4s ease,opacity .3s;opacity:0}
+.det-panel.open{max-height:400px;opacity:1;margin-bottom:1rem}
+.det-panel h4{font-family:var(--display);font-size:.85rem;font-weight:700;margin-bottom:.7rem;color:rgba(255,255,255,.55);letter-spacing:.08em;text-transform:uppercase}
+.course-card:not(.course-card--feat) .det-panel h4{color:var(--ink-lt)}
+.syllabus{list-style:none;display:flex;flex-direction:column;gap:.45rem;border-top:1px solid rgba(255,255,255,.12);padding-top:.7rem}
+.course-card:not(.course-card--feat) .syllabus{border-color:var(--border)}
+.syllabus li{font-size:.8rem;color:rgba(255,255,255,.72);display:flex;align-items:baseline;gap:.55rem;padding:.28rem 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.course-card:not(.course-card--feat) .syllabus li{color:var(--ink-lt);border-color:var(--border)}
+.ep{font-weight:600;color:rgba(255,255,255,.42);font-size:.73rem;white-space:nowrap;flex-shrink:0}
+.course-card:not(.course-card--feat) .ep{color:var(--teal-mid)}
+.course-footer{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:1.1rem;border-top:1px solid var(--border)}
+.course-card--feat .course-footer{border-color:rgba(255,255,255,.18)}
+.course-card--bundle .course-footer{border-color:rgba(183,134,11,.25)}
+.cprice{display:flex;align-items:baseline;gap:.45rem}
+.porig{font-size:.83rem;color:#aaa;text-decoration:line-through}
+.pnow{font-family:var(--display);font-size:1.32rem;font-weight:700;color:var(--teal)}
+.course-card--feat .pnow{color:#acd7f5}
+
+/* ═══════════════════════════════════════════
+   VIDEO SECTION — slate bg
+═══════════════════════════════════════════ */
+.video-section{
+  background:linear-gradient(160deg,#0f2033 0%,#1a3550 100%);
+  position:relative;overflow:hidden;
+}
+.video-section::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(rgba(255,255,255,.04) 1px,transparent 1px);
+  background-size:28px 28px;pointer-events:none;
+}
+.video-section .eyebrow{color:rgba(255,255,255,.5)}
+.video-section .sec-title{color:#fff}
+.video-section .sec-desc{color:rgba(255,255,255,.6)}
+.video-layout{display:grid;grid-template-columns:1fr 330px;gap:1.8rem;align-items:start;position:relative;z-index:1}
+.video-player{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh-lg)}
+.video-player iframe{position:absolute;inset:0;width:100%;height:100%;border:none;display:none}
+.video-player iframe.active{display:block}
+.video-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#0e2954,#1b4f72);cursor:pointer;transition:background .3s}
+.video-ph:hover{background:linear-gradient(135deg,#162040,#2471a3)}
+.video-ph.hidden{display:none}
+.play-btn{width:70px;height:70px;background:rgba(255,255,255,.14);border:2px solid rgba(255,255,255,.38);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.4rem;transition:transform .2s,background .2s}
+.video-ph:hover .play-btn{transform:scale(1.1);background:rgba(255,255,255,.24)}
+.play-btn svg{width:28px;height:28px;color:#fff;margin-left:4px}
+.vph-text{text-align:center}
+.vph-tag{font-size:.73rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.48);margin-bottom:.38rem}
+.vph-title{font-family:var(--display);font-size:1.15rem;color:#fff;font-weight:700;margin-bottom:.45rem}
+.vph-dur{font-size:.8rem;color:rgba(255,255,255,.48)}
+.vnp{display:flex;align-items:center;gap:.55rem;margin-top:.9rem;padding:.72rem .95rem;background:rgba(255,255,255,.08);border-radius:var(--r);border:1px solid rgba(255,255,255,.1)}
+.vnp-lbl{font-size:.7rem;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.vnp-title{font-size:.86rem;color:rgba(255,255,255,.85);font-weight:600}
+.playlist{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-lg);overflow:hidden}
+.pl-hd{padding:1.1rem 1.4rem;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:space-between}
+.pl-hd h3{font-family:var(--display);font-size:.97rem;font-weight:700;color:#fff}
+.pl-count{font-size:.73rem;color:rgba(255,255,255,.45)}
+.pl-list{list-style:none}
+.pl-item{display:flex;align-items:center;gap:.9rem;padding:.9rem 1.4rem;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.07);transition:background .2s}
+.pl-item:hover{background:rgba(255,255,255,.07)}
+.pl-item--on{background:rgba(36,113,163,.25)}
+.pi-thumb{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pl-item--on .pi-thumb{background:var(--teal-mid)}
+.pi-thumb svg{width:15px;height:15px;color:rgba(255,255,255,.6);margin-left:2px}
+.pl-item--on .pi-thumb svg{color:#fff}
+.pi-info{flex:1;min-width:0}
+.pi-title{font-size:.83rem;font-weight:600;color:rgba(255,255,255,.88);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:.18rem}
+.pi-meta{font-size:.72rem;color:rgba(255,255,255,.42)}
+.pi-badge{font-size:.66rem;font-weight:700;background:rgba(39,174,96,.2);color:#2ecc71;padding:.13rem .48rem;border-radius:20px;flex-shrink:0}
+.pl-cta{padding:1.1rem 1.4rem;text-align:center}
+.pl-cta p{font-size:.83rem;color:rgba(255,255,255,.45);margin-bottom:.7rem}
+
+/* ═══════════════════════════════════════════
+   TEACHER — linen texture
+═══════════════════════════════════════════ */
+.teacher{
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23f5f0e8'/%3E%3Ccircle cx='1' cy='1' r='.5' fill='%23ddd8d0' fill-opacity='.4'/%3E%3C/svg%3E");
+  position:relative;
+}
+.teacher::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--teal),var(--gold))}
+.teacher-inner{display:grid;grid-template-columns:320px 1fr;gap:5rem;align-items:start}
+.teacher-photo-wrap{position:relative}
+.teacher-photo{width:270px;height:330px;border-radius:var(--r-lg);overflow:hidden;background:var(--teal-lt);box-shadow:var(--sh-lg)}
+.teacher-ph-pl{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#d6eaf8,#a9cce3)}
+.teacher-initials{font-family:var(--display);font-size:5.5rem;font-weight:700;color:var(--teal);opacity:.45}
+.teacher-bdg-wrap{position:absolute;bottom:-18px;right:-18px}
+.teacher-bdg{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:.75rem .95rem;display:flex;align-items:center;gap:.55rem;box-shadow:var(--sh-md);font-size:.78rem;line-height:1.5;white-space:nowrap}
+.teacher-name{font-family:var(--display);font-size:2.3rem;font-weight:700;margin-bottom:.45rem}
+.teacher-tagline{font-family:var(--serif);font-style:italic;color:var(--teal-mid);font-size:1.02rem;margin-bottom:1.4rem;border-left:3px solid var(--gold);padding-left:.95rem}
+.teacher-bio{color:var(--ink-lt);font-size:.93rem;line-height:1.88;margin-bottom:.95rem}
+.teacher-tags{list-style:none;display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.4rem}
+.teacher-tags li{background:#fff;border:1px solid var(--border);color:var(--teal);font-size:.78rem;padding:.28rem .82rem;border-radius:20px;font-weight:600}
+
+/* ═══════════════════════════════════════════
+   FEATURES — gradient mesh
+═══════════════════════════════════════════ */
+.features{
+  background:
+    radial-gradient(ellipse at 20% 50%,rgba(27,79,114,.06) 0%,transparent 60%),
+    radial-gradient(ellipse at 80% 20%,rgba(183,134,11,.06) 0%,transparent 60%),
+    var(--white);
+}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem}
+.feat-item{padding:1.9rem;border:1px solid var(--border);border-radius:var(--r-lg);background:rgba(255,255,255,.8);backdrop-filter:blur(4px);transition:box-shadow .25s,transform .25s}
+.feat-item:hover{box-shadow:var(--sh-md);transform:translateY(-3px)}
+.feat-icon{font-size:1.9rem;margin-bottom:.9rem;display:block}
+.feat-item h3{font-family:var(--display);font-size:1.08rem;font-weight:700;margin-bottom:.55rem}
+.feat-item p{font-size:.86rem;color:var(--ink-lt);line-height:1.78}
+
+/* ═══════════════════════════════════════════
+   TESTIMONIALS — deep blue bg
+═══════════════════════════════════════════ */
+.testimonials{
+  background:linear-gradient(160deg,#1b4f72 0%,#0d2b45 100%);
+  position:relative;overflow:hidden;
+}
+.testimonials::before{
+  content:'';position:absolute;inset:0;
+  background-image:repeating-linear-gradient(-45deg,transparent,transparent 30px,rgba(255,255,255,.015) 30px,rgba(255,255,255,.015) 31px);
+  pointer-events:none;
+}
+.testimonials .eyebrow{color:rgba(255,255,255,.45)}
+.testimonials .sec-title{color:#fff}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;position:relative;z-index:1}
+.testi{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:var(--r-lg);padding:1.9rem;display:flex;flex-direction:column;backdrop-filter:blur(8px)}
+.testi p{font-family:var(--serif);font-style:italic;font-size:.93rem;line-height:1.88;color:rgba(255,255,255,.88);flex:1;margin-bottom:1.4rem}
+.testi footer{display:flex;flex-direction:column;gap:.18rem;padding-top:.95rem;border-top:1px solid rgba(255,255,255,.12)}
+.testi footer strong{font-size:.88rem;color:#fff}
+.testi footer span{font-size:.78rem;color:rgba(255,255,255,.48)}
+
+/* ═══════════════════════════════════════════
+   CONTACT — cream bg
+═══════════════════════════════════════════ */
+.contact{background:var(--cream)}
+.contact-inner{display:grid;grid-template-columns:1fr 1.6fr;gap:5rem;align-items:start}
+.contact-hi{list-style:none;display:flex;flex-direction:column;gap:.72rem;margin-top:1.5rem}
+.contact-hi li{font-size:.88rem;color:var(--ink-lt)}
+.cform{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);padding:2.4rem;position:relative;box-shadow:var(--sh-sm)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
+.fg{display:flex;flex-direction:column;gap:.38rem;margin-bottom:1.1rem}
+.fg label{font-size:.83rem;font-weight:600;color:var(--ink)}
+.req{color:#e74c3c}
+.fg input,.fg select,.fg textarea{font-family:var(--body);font-size:.88rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--border);border-radius:var(--r);padding:.68rem .95rem;transition:border-color .2s,box-shadow .2s;outline:none;resize:vertical}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--teal-mid);box-shadow:0 0 0 3px rgba(36,113,163,.1)}
+.fg input.err,.fg select.err{border-color:#e74c3c}
+.ferr{font-size:.76rem;color:#e74c3c;min-height:1em}
+.fsub{width:100%;justify-content:center;padding:.88rem;font-size:.97rem;margin-top:.4rem}
+.fsucc{position:absolute;inset:0;background:#fff;border-radius:var(--r-lg);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3rem;gap:.7rem}
+.succ-icon{width:62px;height:62px;border-radius:50%;background:#e8f8ef;color:#27ae60;font-size:1.9rem;display:flex;align-items:center;justify-content:center;font-weight:700;margin-bottom:.4rem}
+.fsucc h3{font-family:var(--display);font-size:1.35rem;color:var(--ink)}
+.fsucc p{color:var(--ink-lt);font-size:.88rem}
+
+/* ═══════════════════════════════════════════
+   PURCHASE — warm sand bg
+═══════════════════════════════════════════ */
+.purchase{
+  background:
+    url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23b7860b' fill-opacity='0.04' fill-rule='evenodd'%3E%3Cpath d='M0 0h40v40H0V0zm40 40h40v40H40V40zm0-40h2l-2 2V0zm0 4l4-4h2l-6 6V4zm0 4l8-8h2L40 10V8zm0 4L52 0h2L40 14v-2zm0 4L56 0h2L40 18v-2zm0 4L60 0h2L40 22v-2zm0 4L64 0h2L40 26v-2zm0 4L68 0h2L40 30v-2zm0 4L72 0h2L40 34v-2zm0 4L76 0h2L40 38v-2zm0 4L80 0v2L42 40h-2zm4 0L80 4v2L46 40h-2zm4 0L80 8v2L50 40h-2zm4 0L80 12v2L54 40h-2zm4 0L80 16v2L58 40h-2zm4 0L80 20v2L62 40h-2zm4 0L80 24v2L66 40h-2zm4 0L80 28v2L70 40h-2zm4 0L80 32v2L74 40h-2zm4 0L80 36v2L78 40h-2z'/%3E%3C/g%3E%3C/svg%3E"),
+    var(--cream2);
+}
+.purch-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:1.4rem;margin-bottom:2.8rem}
+.pcard{border:1px solid var(--border);border-radius:var(--r-lg);padding:1.9rem;text-align:center;background:#fff;transition:box-shadow .25s}
+.pcard:hover{box-shadow:var(--sh-md)}
+.pcard--main{background:linear-gradient(135deg,var(--teal),#0e2954);color:#fff;border-color:var(--teal)}
+.pcard--main h3,.pcard--main p{color:#fff}
+.pcard-icon{font-size:2.4rem;margin-bottom:.95rem}
+.pcard h3{font-family:var(--display);font-size:1.18rem;font-weight:700;margin-bottom:.7rem}
+.pcard p{font-size:.86rem;color:var(--ink-lt);line-height:1.78}
+.pcard--main p{color:rgba(255,255,255,.75)}
+.qr-box{width:145px;height:145px;border:2px dashed rgba(255,255,255,.35);border-radius:var(--r);margin:1.4rem auto 0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.38rem;font-size:.8rem;color:rgba(255,255,255,.6)}
+.qr-hint{font-size:.7rem;opacity:.65}
+.pnote{font-size:.8rem!important;color:rgba(255,255,255,.55)!important;margin-top:.45rem!important}
+.pnotice{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);padding:1.9rem}
+.pnotice h4{font-family:var(--display);font-size:1.02rem;font-weight:700;margin-bottom:.95rem;color:var(--teal)}
+.pnotice ul{list-style:none;display:flex;flex-direction:column;gap:.62rem}
+.pnotice li{font-size:.86rem;color:var(--ink-lt);padding-left:1.15rem;position:relative}
+.pnotice li::before{content:'·';position:absolute;left:0;color:var(--teal);font-weight:700}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+.footer{background:var(--ink);color:rgba(255,255,255,.55);padding:4rem 0 2rem}
+.footer-inner{display:grid;grid-template-columns:1fr 2fr;gap:4rem;margin-bottom:3rem}
+.footer-logo{font-family:var(--display);font-size:1.45rem;font-weight:700;color:#fff;margin-bottom:.18rem}
+.footer-slogan{font-size:.83rem;margin-bottom:1.4rem}
+.footer-copy{font-size:.76rem}
+.footer-links{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.fcol{display:flex;flex-direction:column;gap:.58rem}
+.fcol h5{color:#fff;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.28rem}
+.fcol a{color:rgba(255,255,255,.48);text-decoration:none;font-size:.83rem;transition:color .2s}
+.fcol a:hover{color:rgba(255,255,255,.9)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.09);padding-top:1.4rem;text-align:center;font-family:var(--serif);font-style:italic;font-size:.83rem;color:rgba(255,255,255,.28)}
+
+/* ═══════════════════════════════════════════
+   ANIMATIONS & REVEAL
+═══════════════════════════════════════════ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.fu{opacity:0;animation:fadeUp .7s ease forwards}
+.fu-1{animation-delay:.08s}.fu-2{animation-delay:.2s}.fu-3{animation-delay:.35s}.fu-4{animation-delay:.5s}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* ═══════════════════════════════════════════
+   MOBILE
+═══════════════════════════════════════════ */
+@media(max-width:900px){
+  .portals-inner{grid-template-columns:repeat(3,1fr)}
+  .portal-item{border-bottom:1px solid var(--border)}
+  .portal-item:nth-child(3){border-right:none}
+  .hero-inner{grid-template-columns:1fr;padding:7rem 1.5rem 4rem;gap:2rem}
+  .courses-grid{grid-template-columns:1fr}
+  .course-card--bundle{grid-column:1;flex-direction:column}
+  .video-layout{grid-template-columns:1fr}
+  .teacher-inner{grid-template-columns:1fr;gap:2rem}
+  .teacher-photo{width:100%}
+  .features-grid{grid-template-columns:1fr 1fr}
+  .testi-grid{grid-template-columns:1fr}
+  .contact-inner{grid-template-columns:1fr;gap:2rem}
+  .purch-grid{grid-template-columns:1fr}
+  .footer-inner{grid-template-columns:1fr;gap:2rem}
+  .footer-links{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+  .portals-inner{grid-template-columns:repeat(2,1fr)}
+  .portal-item:nth-child(2){border-right:none}
+  .portal-item:nth-child(3){border-right:1px solid var(--border)}
+  .portal-item:nth-child(4){border-right:none}
+  .portal-item:nth-child(5){border-right:1px solid var(--border)}
+  .portal-item:last-child{border-right:none;grid-column:span 2}
+  .features-grid{grid-template-columns:1fr}
+  .footer-links{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .hero-actions{flex-direction:column}
+  .hero-actions .btn{justify-content:center}
+  .nav-links{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--ink);flex-direction:column;justify-content:center;align-items:center;gap:2.5rem;z-index:99}
+  .nav-links.open{display:flex}
+  .nav-links a{font-size:1.35rem;color:#fff!important}
+  .nav-toggle{display:flex;z-index:101}
+}
+@media(min-width:601px) and (max-width:900px){
+  .nav-links{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--ink);flex-direction:column;justify-content:center;align-items:center;gap:2.5rem;z-index:99}
+  .nav-links.open{display:flex}
+  .nav-links a{font-size:1.35rem;color:#fff!important}
+  .nav-toggle{display:flex;z-index:101}
+}
+</style>
 </head>
 <body>
 
-  <!-- ─── NAV ─── -->
-  <nav class="nav" id="nav">
-    <div class="nav-inner">
-      <a href="#" class="nav-logo">
-        <span class="nav-logo-de">Deutschklasse</span>
-        <span class="nav-logo-zh">德语精品课堂</span>
-      </a>
-      <ul class="nav-links">
-        <li><a href="#courses">课程</a></li>
-        <li><a href="#teacher">教师</a></li>
-        <li><a href="#about">关于</a></li>
-        <li><a href="#purchase" class="nav-cta">立即购课</a></li>
-      </ul>
-      <button class="nav-toggle" id="navToggle" aria-label="菜单">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </nav>
+<!-- ───────── NAV ───────── -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <span class="nav-logo-de">Deutschklasse</span>
+      <span class="nav-logo-zh">德语精品课堂</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#courses">课程</a></li>
+      <li><a href="#preview">试听</a></li>
+      <li><a href="#teacher">教师</a></li>
+      <li><a href="#contact">咨询</a></li>
+      <li><a href="#purchase" class="nav-cta">立即购课</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="菜单">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
 
-  <!-- ─── HERO ─── -->
-  <header class="hero">
-    <div class="hero-bg">
-      <div class="hero-grid"></div>
-      <div class="hero-orb hero-orb--1"></div>
-      <div class="hero-orb hero-orb--2"></div>
-    </div>
-    <div class="hero-inner">
+<!-- ───────── HERO ───────── -->
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-inner">
     <div class="hero-content">
-      <p class="hero-eyebrow">系统 · 专业 · 高效</p>
-      <h1 class="hero-title">
-        <em>掌握德语，</em><br>
-        打开欧洲的门。
-      </h1>
-      <p class="hero-subtitle">
-        从 A1 到 C1，覆盖 Goethe-Zertifikat、TestDaF、DSH 全程备考<br>
-        由在校德语硕士研究生亲授，理论扎实，语法清晰
-      </p>
-      <div class="hero-actions">
+      <p class="hero-eyebrow fu fu-1">系统 · 专业 · 高效</p>
+      <h1 class="hero-title fu fu-2"><em>掌握德语，</em><br>打开欧洲的门。</h1>
+      <p class="hero-sub fu fu-3">从 A1 到 C1，覆盖 Goethe-Zertifikat、TestDaF、DSH 全程备考<br>由在校德语硕士研究生亲授，理论扎实，语法清晰</p>
+      <div class="hero-actions fu fu-4">
         <a href="#courses" class="btn btn-primary">浏览课程</a>
-        <a href="#teacher" class="btn btn-ghost">了解教师</a>
+        <a href="#preview" class="btn btn-ghost">免费试听</a>
       </div>
-      <div class="hero-stats">
-        <div class="stat">
-          <span class="stat-num">500+</span>
-          <span class="stat-label">学员</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat">
-          <span class="stat-num">A1–C1</span>
-          <span class="stat-label">全级别覆盖</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat">
-          <span class="stat-num">98%</span>
-          <span class="stat-label">好评率</span>
-        </div>
+      <div class="hero-stats fu fu-4">
+        <div class="stat"><span class="stat-num">500+</span><span class="stat-label">学员</span></div>
+        <div class="stat-div"></div>
+        <div class="stat"><span class="stat-num">A1–C1</span><span class="stat-label">全级别覆盖</span></div>
+        <div class="stat-div"></div>
+        <div class="stat"><span class="stat-num">98%</span><span class="stat-label">好评率</span></div>
       </div>
-    </div><!-- /hero-content -->
+    </div>
     <div class="hero-deco">
       <div class="hero-card">
-        <div class="hero-card-label">本周开课</div>
-        <div class="hero-card-title">A2 语法精讲班</div>
-        <div class="hero-card-meta">动词变位 · 格位系统 · 从句结构</div>
-        <div class="hero-card-badge">进行中</div>
+        <div class="hc-label">本周开课</div>
+        <div class="hc-title">A2 语法精讲班</div>
+        <div class="hc-meta">动词变位 · 格位系统 · 从句结构</div>
+        <div class="hc-badge">进行中</div>
       </div>
       <div class="hero-quote">
         <p>„Übung macht den Meister."</p>
         <span>熟能生巧。</span>
       </div>
-    </div><!-- /hero-deco -->
-    </div><!-- /hero-inner -->
-  </header>
-
-  <!-- ─── LEVELS ─── -->
-  <section class="levels">
-    <div class="container">
-      <div class="levels-track">
-        <div class="level-item level-item--active">
-          <span class="level-badge">A1</span>
-          <span>入门基础</span>
-        </div>
-        <div class="level-arrow">→</div>
-        <div class="level-item level-item--active">
-          <span class="level-badge">A2</span>
-          <span>初级提升</span>
-        </div>
-        <div class="level-arrow">→</div>
-        <div class="level-item">
-          <span class="level-badge">B1</span>
-          <span>中级突破</span>
-        </div>
-        <div class="level-arrow">→</div>
-        <div class="level-item">
-          <span class="level-badge">B2</span>
-          <span>高级进阶</span>
-        </div>
-        <div class="level-arrow">→</div>
-        <div class="level-item">
-          <span class="level-badge">C1</span>
-          <span>学术精通</span>
-        </div>
-      </div>
     </div>
-  </section>
+  </div>
+</header>
 
-  <!-- ─── COURSES ─── -->
-  <section class="courses section" id="courses">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-eyebrow">Kurse</p>
-        <h2 class="section-title">精品录播课程</h2>
-        <p class="section-desc">每门课程均配套讲义、练习题及答疑群，购课后永久回看</p>
-      </div>
-      <div class="courses-grid">
+<!-- ───────── QUICK-ACCESS PORTALS ───────── -->
+<div class="portals">
+  <div class="portals-inner">
+    <a href="#courses" class="portal-item">
+      <div class="portal-icon">📚</div>
+      <div class="portal-label">德语课程</div>
+      <div class="portal-sub">A1–C1 录播课</div>
+    </a>
+    <a href="#courses" class="portal-item">
+      <div class="portal-icon">📐</div>
+      <div class="portal-label">德语语法</div>
+      <div class="portal-sub">系统语法精讲</div>
+    </a>
+    <a href="#preview" class="portal-item">
+      <div class="portal-icon">▶️</div>
+      <div class="portal-label">德语学习</div>
+      <div class="portal-sub">免费试听入口</div>
+    </a>
+    <a href="#teacher" class="portal-item">
+      <div class="portal-icon">👩‍🏫</div>
+      <div class="portal-label">教师简介</div>
+      <div class="portal-sub">Jonas 老师</div>
+    </a>
+    <a href="#contact" class="portal-item">
+      <div class="portal-icon">✍️</div>
+      <div class="portal-label">在线报名</div>
+      <div class="portal-sub">咨询 & 报名</div>
+    </a>
+    <a href="#purchase" class="portal-item">
+      <div class="portal-icon">💳</div>
+      <div class="portal-label">购课入口</div>
+      <div class="portal-sub">微信 / 小红书</div>
+    </a>
+  </div>
+</div>
 
-        <article class="course-card course-card--featured">
-          <div class="course-card-top">
-            <span class="course-level">A1</span>
-            <span class="course-tag">热门</span>
-          </div>
-          <h3 class="course-name">德语零基础入门精讲</h3>
-          <p class="course-desc">从字母发音出发，系统讲解入门语法：名词性别、基础动词变位、简单句型。适合完全零基础学员。</p>
-          <ul class="course-points">
-            <li>🎬 共 32 节课，每节 20–40 分钟</li>
-            <li>📄 配套 PDF 讲义 + 随堂练习</li>
-            <li>💬 专属答疑微信群</li>
-            <li>🏆 Goethe A1 考前冲刺专题</li>
-          </ul>
-          <div class="course-footer">
-            <div class="course-price">
-              <span class="price-orig">¥599</span>
-              <span class="price-now">¥299</span>
-            </div>
-            <a href="#purchase" class="btn btn-primary btn-sm">立即购买</a>
-          </div>
-        </article>
+<!-- ───────── LEVELS ───────── -->
+<div class="levels">
+  <div class="container">
+    <div class="levels-track">
+      <div class="lv-item lv-item--on"><span class="lv-badge">A1</span><span>入门基础</span></div>
+      <div class="lv-arrow">→</div>
+      <div class="lv-item lv-item--on"><span class="lv-badge">A2</span><span>初级提升</span></div>
+      <div class="lv-arrow">→</div>
+      <div class="lv-item"><span class="lv-badge">B1</span><span>中级突破</span></div>
+      <div class="lv-arrow">→</div>
+      <div class="lv-item"><span class="lv-badge">B2</span><span>高级进阶</span></div>
+      <div class="lv-arrow">→</div>
+      <div class="lv-item"><span class="lv-badge">C1</span><span>学术精通</span></div>
+    </div>
+  </div>
+</div>
 
-        <article class="course-card">
-          <div class="course-card-top">
-            <span class="course-level">A2</span>
-          </div>
-          <h3 class="course-name">A2 语法系统强化课</h3>
-          <p class="course-desc">深入讲解四格体系、分离动词、情态动词、过去时态，带你从入门迈向初级流利表达。</p>
-          <ul class="course-points">
-            <li>🎬 共 40 节课</li>
-            <li>📄 语法框架总结表</li>
-            <li>📝 模拟题精讲</li>
-          </ul>
-          <div class="course-footer">
-            <div class="course-price">
-              <span class="price-now">¥359</span>
-            </div>
-            <a href="#purchase" class="btn btn-outline btn-sm">了解详情</a>
-          </div>
-        </article>
+<!-- ───────── COURSES ───────── -->
+<section class="courses section" id="courses">
+  <div class="container">
+    <div class="sec-hd reveal">
+      <p class="eyebrow">Kurse</p>
+      <h2 class="sec-title">精品录播课程</h2>
+      <p class="sec-desc">每门课程均配套讲义、练习题及答疑群，购课后永久回看</p>
+    </div>
+    <div class="courses-grid">
 
-        <article class="course-card">
-          <div class="course-card-top">
-            <span class="course-level">B1</span>
-            <span class="course-tag course-tag--new">新上线</span>
-          </div>
-          <h3 class="course-name">B1 综合能力提升课</h3>
-          <p class="course-desc">涵盖从句、虚拟式、被动态等核心语法，配合听说读写综合训练，冲刺 Goethe B1 证书。</p>
-          <ul class="course-points">
-            <li>🎬 共 48 节课</li>
-            <li>🗣️ 口语练习专题模块</li>
-            <li>📝 真题解析专场</li>
-          </ul>
-          <div class="course-footer">
-            <div class="course-price">
-              <span class="price-now">¥459</span>
-            </div>
-            <a href="#purchase" class="btn btn-outline btn-sm">了解详情</a>
-          </div>
-        </article>
+      <article class="course-card course-card--feat reveal">
+        <div class="card-top"><span class="clevel">A1</span><span class="ctag">热门</span></div>
+        <h3 class="cname">德语零基础入门精讲</h3>
+        <p class="cdesc">从字母发音出发，系统讲解入门语法：名词性别、基础动词变位、简单句型。适合完全零基础学员。</p>
+        <ul class="cpoints">
+          <li>🎬 共 32 节课，每节 20–40 分钟</li>
+          <li>📄 配套 PDF 讲义 + 随堂练习</li>
+          <li>💬 专属答疑微信群</li>
+          <li>🏆 Goethe A1 考前冲刺专题</li>
+        </ul>
+        <button class="det-toggle" data-target="da1">查看课程大纲 ▾</button>
+        <div class="det-panel" id="da1">
+          <h4>课程大纲</h4>
+          <ol class="syllabus">
+            <li><span class="ep">第01–04讲</span>德语字母与发音规则全解</li>
+            <li><span class="ep">第05–10讲</span>名词性别与冠词（der/die/das）</li>
+            <li><span class="ep">第11–16讲</span>基础动词变位（sein, haben, 规则动词）</li>
+            <li><span class="ep">第17–22讲</span>第一格（Nominativ）与第四格（Akkusativ）</li>
+            <li><span class="ep">第23–28讲</span>简单句型：疑问句、否定句、命令句</li>
+            <li><span class="ep">第29–32讲</span>Goethe A1 真题模拟 + 冲刺专题</li>
+          </ol>
+        </div>
+        <div class="course-footer">
+          <div class="cprice"><span class="porig">¥599</span><span class="pnow">¥299</span></div>
+          <a href="#purchase" class="btn btn-primary btn-sm">立即购买</a>
+        </div>
+      </article>
 
-        <article class="course-card">
-          <div class="course-card-top">
-            <span class="course-level">B2–C1</span>
-          </div>
-          <h3 class="course-name">TestDaF / DSH 冲刺备考</h3>
-          <p class="course-desc">针对赴德留学生，系统梳理 TestDaF 四项技能，DSH 写作与阅读重难点精讲，高效备考。</p>
-          <ul class="course-points">
-            <li>🎬 共 36 节专题课</li>
-            <li>✍️ 作文批改（限量名额）</li>
-            <li>📊 历年真题详解</li>
-          </ul>
-          <div class="course-footer">
-            <div class="course-price">
-              <span class="price-now">¥599</span>
-            </div>
-            <a href="#purchase" class="btn btn-outline btn-sm">了解详情</a>
-          </div>
-        </article>
+      <article class="course-card reveal">
+        <div class="card-top"><span class="clevel">A2</span></div>
+        <h3 class="cname">A2 语法系统强化课</h3>
+        <p class="cdesc">深入讲解四格体系、分离动词、情态动词、过去时态，带你从入门迈向初级流利表达。</p>
+        <ul class="cpoints">
+          <li>🎬 共 40 节课</li>
+          <li>📄 语法框架总结表</li>
+          <li>📝 模拟题精讲</li>
+        </ul>
+        <button class="det-toggle" data-target="da2">查看课程大纲 ▾</button>
+        <div class="det-panel" id="da2">
+          <h4>课程大纲</h4>
+          <ol class="syllabus">
+            <li><span class="ep">第01–08讲</span>四格系统深入（Nom/Akk/Dat/Gen）</li>
+            <li><span class="ep">第09–16讲</span>分离动词与情态动词精讲</li>
+            <li><span class="ep">第17–24讲</span>过去时（Präteritum）与完成时（Perfekt）</li>
+            <li><span class="ep">第25–32讲</span>介词与格位搭配专题</li>
+            <li><span class="ep">第33–40讲</span>Goethe A2 模拟训练 + 写作专题</li>
+          </ol>
+        </div>
+        <div class="course-footer">
+          <div class="cprice"><span class="pnow">¥359</span></div>
+          <a href="#purchase" class="btn btn-outline btn-sm">了解详情</a>
+        </div>
+      </article>
 
-        <article class="course-card course-card--bundle">
-          <div class="course-card-top">
-            <span class="course-level">A1–B1</span>
-            <span class="course-tag course-tag--gold">超值套餐</span>
-          </div>
-          <h3 class="course-name">三级连读全套包</h3>
-          <p class="course-desc">A1 + A2 + B1 三门课程打包，一次购入，终身有效，最适合有系统学习计划的学员。</p>
-          <ul class="course-points">
+      <article class="course-card reveal">
+        <div class="card-top"><span class="clevel">B1</span><span class="ctag ctag-new">新上线</span></div>
+        <h3 class="cname">B1 综合能力提升课</h3>
+        <p class="cdesc">涵盖从句、虚拟式、被动态等核心语法，配合听说读写综合训练，冲刺 Goethe B1 证书。</p>
+        <ul class="cpoints">
+          <li>🎬 共 48 节课</li>
+          <li>🗣️ 口语练习专题模块</li>
+          <li>📝 真题解析专场</li>
+        </ul>
+        <div class="course-footer">
+          <div class="cprice"><span class="pnow">¥459</span></div>
+          <a href="#purchase" class="btn btn-outline btn-sm">了解详情</a>
+        </div>
+      </article>
+
+      <article class="course-card reveal">
+        <div class="card-top"><span class="clevel">B2–C1</span></div>
+        <h3 class="cname">TestDaF / DSH 冲刺备考</h3>
+        <p class="cdesc">针对赴德留学生，系统梳理 TestDaF 四项技能，DSH 写作与阅读重难点精讲，高效备考。</p>
+        <ul class="cpoints">
+          <li>🎬 共 36 节专题课</li>
+          <li>✍️ 作文批改（限量名额）</li>
+          <li>📊 历年真题详解</li>
+        </ul>
+        <div class="course-footer">
+          <div class="cprice"><span class="pnow">¥599</span></div>
+          <a href="#purchase" class="btn btn-outline btn-sm">了解详情</a>
+        </div>
+      </article>
+
+      <article class="course-card course-card--bundle reveal">
+        <div>
+          <div class="card-top"><span class="clevel">A1–B1</span><span class="ctag ctag-gold">超值套餐</span></div>
+          <h3 class="cname">三级连读全套包</h3>
+          <p class="cdesc">A1 + A2 + B1 三门课程打包，一次购入，终身有效，最适合有系统学习计划的学员。</p>
+          <ul class="cpoints">
             <li>🎬 共 120 节课</li>
             <li>💰 节省 ¥300+</li>
             <li>🎁 赠送发音强化音频课</li>
           </ul>
-          <div class="course-footer">
-            <div class="course-price">
-              <span class="price-orig">¥1,217</span>
-              <span class="price-now">¥899</span>
-            </div>
-            <a href="#purchase" class="btn btn-primary btn-sm">套餐购买</a>
-          </div>
-        </article>
+        </div>
+        <div class="course-footer">
+          <div class="cprice"><span class="porig">¥1,217</span><span class="pnow">¥899</span></div>
+          <a href="#purchase" class="btn btn-primary btn-sm">套餐购买</a>
+        </div>
+      </article>
 
-      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ─── TEACHER ─── -->
-  <section class="teacher section" id="teacher">
-    <div class="container">
-      <div class="teacher-inner">
-        <div class="teacher-photo-wrap">
-          <div class="teacher-photo">
-            <div class="teacher-photo-placeholder">
-              <span class="teacher-initials">J</span>
-            </div>
-          </div>
-          <div class="teacher-badge-wrap">
-            <div class="teacher-badge">
-              <span>🎓</span>
-              <span>浙江大学<br>德语硕士在读</span>
-            </div>
-          </div>
-        </div>
-        <div class="teacher-info">
-          <p class="section-eyebrow">Lehrerin</p>
-          <h2 class="teacher-name">Jonas 老师</h2>
-          <p class="teacher-tagline">„语言是理解一种文化最深刻的方式。"</p>
-          <p class="teacher-bio">
-            浙江大学外国语学院德语研究所硕士研究生，研究方向为德语文化技术理论（Kulturtechnik）与德语文学，师从刘永强副教授。德语水平 C1，具有丰富的 A1–A2 教学经验，教学风格以语法逻辑清晰、例句贴近生活见长。
-          </p>
-          <p class="teacher-bio">
-            曾系统研究 Goethe-Zertifikat、TestDaF 与 DSH 考试体系，熟悉中国学生学习德语的常见难点与思维误区，擅长以母语者思维帮助学员建立正确的语言直觉。
-          </p>
-          <ul class="teacher-tags">
-            <li>浙江大学德语专业</li>
-            <li>C1 德语水平</li>
-            <li>Kulturtechnik 研究方向</li>
-            <li>Goethe / TestDaF 专项</li>
-            <li>500+ 学员</li>
-          </ul>
-        </div>
-      </div>
+<!-- ───────── VIDEO ───────── -->
+<section class="video-section section" id="preview">
+  <div class="container">
+    <div class="sec-hd reveal">
+      <p class="eyebrow">Probelektion</p>
+      <h2 class="sec-title">免费试听</h2>
+      <p class="sec-desc">购课前先听一听，感受教学风格与语法讲解方式</p>
     </div>
-  </section>
-
-  <!-- ─── FEATURES ─── -->
-  <section class="features section">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-eyebrow">Warum wir</p>
-        <h2 class="section-title">为什么选择我们</h2>
-      </div>
-      <div class="features-grid">
-        <div class="feature-item">
-          <div class="feature-icon">📐</div>
-          <h3>语法逻辑优先</h3>
-          <p>不死记硬背，用规律和逻辑讲清每个语法点，让你真正理解德语结构</p>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon">♾️</div>
-          <h3>永久回看</h3>
-          <p>购课后即可随时回看，不受时间限制，按自己节奏复习</p>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon">📝</div>
-          <h3>配套讲义</h3>
-          <p>每节课均有精心整理的 PDF 讲义，框架清晰，便于复习和笔记</p>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon">💬</div>
-          <h3>答疑群支持</h3>
-          <p>购课学员进入专属微信群，遇到问题随时发问，不让疑惑堆积</p>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon">🎯</div>
-          <h3>考试导向</h3>
-          <p>所有课程与 Goethe、TestDaF、DSH 考试体系紧密结合，学了能用</p>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon">🌍</div>
-          <h3>文化视角</h3>
-          <p>学语言也学文化，结合德国社会与人文背景，让学习更有趣、更立体</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── TESTIMONIALS ─── -->
-  <section class="testimonials section">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-eyebrow">Stimmen</p>
-        <h2 class="section-title">学员说</h2>
-      </div>
-      <div class="testimonials-grid">
-        <blockquote class="testimonial">
-          <p>「格位系统一直是我的噩梦，听了 Jonas 老师的 A2 课之后终于豁然开朗。用逻辑讲语法，真的比死记好太多了！」</p>
-          <footer>
-            <strong>李同学</strong>
-            <span>备考 Goethe A2，已通过</span>
-          </footer>
-        </blockquote>
-        <blockquote class="testimonial">
-          <p>「课程节奏很好，例句都很接地气，不会觉得枯燥。答疑群响应也快，感觉在上一对一的课。」</p>
-          <footer>
-            <strong>王同学</strong>
-            <span>A1 入门课学员</span>
-          </footer>
-        </blockquote>
-        <blockquote class="testimonial">
-          <p>「买了 A1–B1 套餐，跟着课表学了半年，现在已经可以看简单的德语文章了。性价比非常高。」</p>
-          <footer>
-            <strong>张同学</strong>
-            <span>全套包学员</span>
-          </footer>
-        </blockquote>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── PURCHASE ─── -->
-  <section class="purchase section" id="purchase">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-eyebrow">Kaufen</p>
-        <h2 class="section-title">购课渠道</h2>
-        <p class="section-desc">支持微信 / 支付宝付款，购课后 24 小时内开通学习权限</p>
-      </div>
-      <div class="purchase-grid">
-
-        <div class="purchase-card purchase-card--main">
-          <div class="purchase-card-icon">💬</div>
-          <h3>微信扫码购课</h3>
-          <p>添加助手微信，发送想购买的课程名称，助手将发送付款链接与课程入口</p>
-          <div class="qr-placeholder">
-            <div class="qr-box">
-              <p>微信二维码</p>
-              <p class="qr-hint">（请替换为实际二维码图片）</p>
+    <div class="video-layout reveal">
+      <div>
+        <div class="video-player" id="videoPlayer">
+          <iframe id="videoFrame" src="about:blank"
+            data-src="https://player.bilibili.com/player.html?bvid=BV1xx411c7mD&page=1&high_quality=1&danmaku=0"
+            title="德语试听课" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope" allowfullscreen></iframe>
+          <div class="video-ph" id="videoPh">
+            <div class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="vph-text">
+              <p class="vph-tag">A1 入门课 · 试听</p>
+              <p class="vph-title">第01讲：德语字母与发音规则</p>
+              <p class="vph-dur">⏱ 约 28 分钟</p>
             </div>
           </div>
-          <p class="purchase-note">微信号：deutschklasse_service</p>
         </div>
-
-        <div class="purchase-card">
-          <div class="purchase-card-icon">📱</div>
-          <h3>小红书私信</h3>
-          <p>在小红书搜索账号 <strong>@Jonas德语</strong>，发私信告知购课需求，可查看最新课程更新与活动</p>
-          <a href="#" class="btn btn-outline" style="margin-top:1.5rem;">前往主页</a>
+        <div class="vnp" id="vnp">
+          <span class="vnp-lbl">正在播放</span>
+          <span class="vnp-title" id="vnpTitle">第01讲：德语字母与发音规则</span>
         </div>
-
-        <div class="purchase-card">
-          <div class="purchase-card-icon">▶️</div>
-          <h3>抖音 / 视频号</h3>
-          <p>关注抖音账号 <strong>@Jonas德语课堂</strong>，可免费获取部分试听内容，评论区留言购课</p>
-          <a href="#" class="btn btn-outline" style="margin-top:1.5rem;">免费试听</a>
-        </div>
-
       </div>
+      <div class="playlist">
+        <div class="pl-hd"><h3>试听目录</h3><span class="pl-count">共 4 节免费</span></div>
+        <ul class="pl-list">
+          <li class="pl-item pl-item--on" data-title="第01讲：德语字母与发音规则"
+            data-src="https://player.bilibili.com/player.html?bvid=BV1xx411c7mD&page=1&high_quality=1&danmaku=0">
+            <div class="pi-thumb"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="pi-info"><p class="pi-title">第01讲：德语字母与发音规则</p><p class="pi-meta">A1 · 28:14</p></div>
+            <span class="pi-badge">免费</span>
+          </li>
+          <li class="pl-item" data-title="第05讲：名词性别与冠词"
+            data-src="https://player.bilibili.com/player.html?bvid=BV1xx411c7mD&page=2&high_quality=1&danmaku=0">
+            <div class="pi-thumb"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="pi-info"><p class="pi-title">第05讲：名词性别与冠词</p><p class="pi-meta">A1 · 35:02</p></div>
+            <span class="pi-badge">免费</span>
+          </li>
+          <li class="pl-item" data-title="A2 第01讲：四格系统导论"
+            data-src="https://player.bilibili.com/player.html?bvid=BV1xx411c7mD&page=3&high_quality=1&danmaku=0">
+            <div class="pi-thumb"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="pi-info"><p class="pi-title">A2 第01讲：四格系统导论</p><p class="pi-meta">A2 · 42:18</p></div>
+            <span class="pi-badge">免费</span>
+          </li>
+          <li class="pl-item" data-title="B1 第01讲：从句结构总览"
+            data-src="https://player.bilibili.com/player.html?bvid=BV1xx411c7mD&page=4&high_quality=1&danmaku=0">
+            <div class="pi-thumb"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="pi-info"><p class="pi-title">B1 第01讲：从句结构总览</p><p class="pi-meta">B1 · 38:55</p></div>
+            <span class="pi-badge">免费</span>
+          </li>
+        </ul>
+        <div class="pl-cta"><p>想看更多内容？</p><a href="#purchase" class="btn btn-primary btn-sm">购课解锁全部</a></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <div class="purchase-notice">
-        <h4>购课须知</h4>
-        <ul>
-          <li>录播课程购买后即可开始学习，永久有效，不设有效期</li>
-          <li>答疑群以课程为单位加入，购课后由助手邀请</li>
-          <li>如有作文批改服务（B2–C1 课程），具体规则详见课程说明</li>
-          <li>购课前可申请试看 1–2 节，确认风格适合后再购买</li>
+<!-- ───────── TEACHER ───────── -->
+<section class="teacher section" id="teacher">
+  <div class="container">
+    <div class="teacher-inner reveal">
+      <div class="teacher-photo-wrap">
+        <div class="teacher-photo">
+          <div class="teacher-ph-pl"><span class="teacher-initials">J</span></div>
+        </div>
+        <div class="teacher-bdg-wrap">
+          <div class="teacher-bdg"><span>🎓</span><span>浙江大学<br>德语硕士在读</span></div>
+        </div>
+      </div>
+      <div>
+        <p class="eyebrow">Lehrerin</p>
+        <h2 class="teacher-name">Jonas 老师</h2>
+        <p class="teacher-tagline">„语言是理解一种文化最深刻的方式。"</p>
+        <p class="teacher-bio">浙江大学外国语学院德语研究所硕士研究生，研究方向为德语文化技术理论（Kulturtechnik）与德语文学，师从刘永强副教授。德语水平 C1，具有丰富的 A1–A2 教学经验，教学风格以语法逻辑清晰、例句贴近生活见长。</p>
+        <p class="teacher-bio">曾系统研究 Goethe-Zertifikat、TestDaF 与 DSH 考试体系，熟悉中国学生学习德语的常见难点与思维误区，擅长以母语者思维帮助学员建立正确的语言直觉。</p>
+        <ul class="teacher-tags">
+          <li>浙江大学德语专业</li><li>C1 德语水平</li><li>Kulturtechnik 研究方向</li>
+          <li>Goethe / TestDaF 专项</li><li>500+ 学员</li>
         </ul>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ─── FOOTER ─── -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-inner">
-        <div class="footer-brand">
-          <p class="footer-logo">Deutschklasse</p>
-          <p class="footer-slogan">德语精品课堂</p>
-          <p class="footer-copy">© 2025 Deutschklasse · 德语精品课堂</p>
-        </div>
-        <div class="footer-links">
-          <div class="footer-col">
-            <h5>课程</h5>
-            <a href="#courses">A1 入门课</a>
-            <a href="#courses">A2 语法课</a>
-            <a href="#courses">B1 综合课</a>
-            <a href="#courses">TestDaF 冲刺</a>
-          </div>
-          <div class="footer-col">
-            <h5>关于</h5>
-            <a href="#teacher">教师介绍</a>
-            <a href="#about">关于我们</a>
-            <a href="#purchase">购课方式</a>
-          </div>
-          <div class="footer-col">
-            <h5>联系</h5>
-            <a href="#">微信：deutschklasse</a>
-            <a href="#">小红书：@Jonas德语</a>
-            <a href="#">抖音：@Jonas德语课堂</a>
-          </div>
-        </div>
+<!-- ───────── FEATURES ───────── -->
+<section class="features section">
+  <div class="container">
+    <div class="sec-hd reveal"><p class="eyebrow">Warum wir</p><h2 class="sec-title">为什么选择我们</h2></div>
+    <div class="features-grid">
+      <div class="feat-item reveal"><div class="feat-icon">📐</div><h3>语法逻辑优先</h3><p>不死记硬背，用规律和逻辑讲清每个语法点，让你真正理解德语结构</p></div>
+      <div class="feat-item reveal"><div class="feat-icon">♾️</div><h3>永久回看</h3><p>购课后即可随时回看，不受时间限制，按自己节奏复习</p></div>
+      <div class="feat-item reveal"><div class="feat-icon">📝</div><h3>配套讲义</h3><p>每节课均有精心整理的 PDF 讲义，框架清晰，便于复习和笔记</p></div>
+      <div class="feat-item reveal"><div class="feat-icon">💬</div><h3>答疑群支持</h3><p>购课学员进入专属微信群，遇到问题随时发问，不让疑惑堆积</p></div>
+      <div class="feat-item reveal"><div class="feat-icon">🎯</div><h3>考试导向</h3><p>所有课程与 Goethe、TestDaF、DSH 考试体系紧密结合，学了能用</p></div>
+      <div class="feat-item reveal"><div class="feat-icon">🌍</div><h3>文化视角</h3><p>学语言也学文化，结合德国社会与人文背景，让学习更有趣、更立体</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── TESTIMONIALS ───────── -->
+<section class="testimonials section">
+  <div class="container">
+    <div class="sec-hd reveal"><p class="eyebrow">Stimmen</p><h2 class="sec-title">学员说</h2></div>
+    <div class="testi-grid">
+      <blockquote class="testi reveal">
+        <p>「格位系统一直是我的噩梦，听了 Jonas 老师的 A2 课之后终于豁然开朗。用逻辑讲语法，真的比死记好太多了！」</p>
+        <footer><strong>李同学</strong><span>备考 Goethe A2，已通过</span></footer>
+      </blockquote>
+      <blockquote class="testi reveal">
+        <p>「课程节奏很好，例句都很接地气，不会觉得枯燥。答疑群响应也快，感觉在上一对一的课。」</p>
+        <footer><strong>王同学</strong><span>A1 入门课学员</span></footer>
+      </blockquote>
+      <blockquote class="testi reveal">
+        <p>「买了 A1–B1 套餐，跟着课表学了半年，现在已经可以看简单的德语文章了。性价比非常高。」</p>
+        <footer><strong>张同学</strong><span>全套包学员</span></footer>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── CONTACT ───────── -->
+<section class="contact section" id="contact">
+  <div class="container">
+    <div class="contact-inner reveal">
+      <div>
+        <p class="eyebrow">Kontakt</p>
+        <h2 class="sec-title" style="text-align:left">在线咨询 / 报名</h2>
+        <p style="color:var(--ink-lt);margin-bottom:1rem;line-height:1.85;font-size:.93rem">填写下方表单，24 小时内通过微信与你联系，为你推荐合适的课程或安排免费试听。</p>
+        <ul class="contact-hi">
+          <li>✅ 24 小时内回复</li>
+          <li>✅ 免费推荐适合你的课程</li>
+          <li>✅ 可申请 1–2 节免费试听</li>
+          <li>✅ 无购买压力，欢迎先了解</li>
+        </ul>
       </div>
-      <div class="footer-bottom">
-        <p>„Die Grenzen meiner Sprache bedeuten die Grenzen meiner Welt." — L. Wittgenstein</p>
+      <form class="cform" id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="fg">
+            <label for="fname">姓名 <span class="req">*</span></label>
+            <input type="text" id="fname" name="name" placeholder="你的称呼" required/>
+            <span class="ferr" id="err-name"></span>
+          </div>
+          <div class="fg">
+            <label for="fwechat">微信号 <span class="req">*</span></label>
+            <input type="text" id="fwechat" name="wechat" placeholder="方便联系的微信号" required/>
+            <span class="ferr" id="err-wechat"></span>
+          </div>
+        </div>
+        <div class="fg">
+          <label for="flevel">当前德语水平</label>
+          <select id="flevel" name="level">
+            <option value="">— 请选择 —</option>
+            <option>完全零基础</option><option>学过一点（A1 左右）</option>
+            <option>初级（A2 左右）</option><option>中级（B1 左右）</option>
+            <option>中高级（B2 及以上）</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label for="fgoal">学习目标</label>
+          <select id="fgoal" name="goal">
+            <option value="">— 请选择 —</option>
+            <option>日常兴趣学习</option><option>备考 Goethe-Zertifikat</option>
+            <option>备考 TestDaF / DSH（赴德留学）</option>
+            <option>工作/移民需要</option><option>其他</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label for="fmsg">留言（选填）</label>
+          <textarea id="fmsg" name="message" rows="3" placeholder="有什么想问的都可以写在这里…"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary fsub" id="formSubmit">
+          <span id="sbTxt">提交咨询</span><span id="sbLoad" style="display:none">发送中…</span>
+        </button>
+        <div class="fsucc" id="formSuccess" style="display:none">
+          <div class="succ-icon">✓</div>
+          <h3>已收到你的信息！</h3>
+          <p>我们会在 24 小时内通过微信联系你。</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── PURCHASE ───────── -->
+<section class="purchase section" id="purchase">
+  <div class="container">
+    <div class="sec-hd reveal">
+      <p class="eyebrow">Kaufen</p>
+      <h2 class="sec-title">购课渠道</h2>
+      <p class="sec-desc">支持微信 / 支付宝付款，购课后 24 小时内开通学习权限</p>
+    </div>
+    <div class="purch-grid">
+      <div class="pcard pcard--main reveal">
+        <div class="pcard-icon">💬</div>
+        <h3>微信扫码购课</h3>
+        <p>添加助手微信，发送想购买的课程名称，助手将发送付款链接与课程入口</p>
+        <div class="qr-box"><p>微信二维码</p><p class="qr-hint">（请替换为实际二维码图片）</p></div>
+        <p class="pnote">微信号：deutschklasse_service</p>
+      </div>
+      <div class="pcard reveal">
+        <div class="pcard-icon">📱</div>
+        <h3>小红书私信</h3>
+        <p>在小红书搜索账号 <strong>@Jonas德语</strong>，发私信告知购课需求，可查看最新课程更新与活动</p>
+        <a href="#" class="btn btn-outline" style="margin-top:1.4rem">前往主页</a>
+      </div>
+      <div class="pcard reveal">
+        <div class="pcard-icon">▶️</div>
+        <h3>抖音 / 视频号</h3>
+        <p>关注抖音账号 <strong>@Jonas德语课堂</strong>，可免费获取部分试听内容，评论区留言购课</p>
+        <a href="#" class="btn btn-outline" style="margin-top:1.4rem">免费试听</a>
       </div>
     </div>
-  </footer>
+    <div class="pnotice reveal">
+      <h4>购课须知</h4>
+      <ul>
+        <li>录播课程购买后即可开始学习，永久有效，不设有效期</li>
+        <li>答疑群以课程为单位加入，购课后由助手邀请</li>
+        <li>如有作文批改服务（B2–C1 课程），具体规则详见课程说明</li>
+        <li>购课前可申请试看 1–2 节，确认风格适合后再购买</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-  <script src="js/main.js"></script>
+<!-- ───────── FOOTER ───────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <p class="footer-logo">Deutschklasse</p>
+        <p class="footer-slogan">德语精品课堂</p>
+        <p class="footer-copy">© 2025 Deutschklasse · 德语精品课堂</p>
+      </div>
+      <div class="footer-links">
+        <div class="fcol">
+          <h5>课程</h5>
+          <a href="#courses">A1 入门课</a><a href="#courses">A2 语法课</a>
+          <a href="#courses">B1 综合课</a><a href="#courses">TestDaF 冲刺</a>
+        </div>
+        <div class="fcol">
+          <h5>关于</h5>
+          <a href="#teacher">教师介绍</a><a href="#preview">免费试听</a>
+          <a href="#contact">在线咨询</a><a href="#purchase">购课方式</a>
+        </div>
+        <div class="fcol">
+          <h5>联系</h5>
+          <a href="#">微信：deutschklasse</a>
+          <a href="#">小红书：@Jonas德语</a>
+          <a href="#">抖音：@Jonas德语课堂</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>„Die Grenzen meiner Sprache bedeuten die Grenzen meiner Welt." — L. Wittgenstein</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// NAV scroll
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60));
+
+// Mobile menu
+const toggle=document.getElementById('navToggle');
+const links=document.getElementById('navLinks');
+toggle.addEventListener('click',()=>links.classList.toggle('open'));
+links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>links.classList.remove('open')));
+
+// Scroll reveal
+const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// Course detail toggles
+document.querySelectorAll('.det-toggle').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const panel=document.getElementById(btn.dataset.target);
+    const open=panel.classList.contains('open');
+    document.querySelectorAll('.det-panel').forEach(p=>p.classList.remove('open'));
+    document.querySelectorAll('.det-toggle').forEach(b=>{b.classList.remove('open');b.textContent=b.textContent.replace('▴','▾')});
+    if(!open){panel.classList.add('open');btn.classList.add('open');btn.textContent=btn.textContent.replace('▾','▴')}
+  });
+});
+
+// Video player
+const frame=document.getElementById('videoFrame');
+const ph=document.getElementById('videoPh');
+const vnpTitle=document.getElementById('vnpTitle');
+
+function loadVideo(src,title){
+  frame.src=src;frame.classList.add('active');ph.classList.add('hidden');
+  if(vnpTitle)vnpTitle.textContent=title;
+}
+
+if(ph)ph.addEventListener('click',()=>{
+  const active=document.querySelector('.pl-item--on');
+  if(active)loadVideo(active.dataset.src,active.querySelector('.pi-title').textContent);
+});
+
+document.querySelectorAll('.pl-item').forEach(item=>{
+  item.addEventListener('click',()=>{
+    document.querySelectorAll('.pl-item').forEach(i=>i.classList.remove('pl-item--on'));
+    item.classList.add('pl-item--on');
+    loadVideo(item.dataset.src,item.querySelector('.pi-title').textContent);
+  });
+});
+
+// Contact form
+const form=document.getElementById('contactForm');
+if(form){
+  form.addEventListener('submit',e=>{
+    e.preventDefault();let ok=true;
+    const name=document.getElementById('fname'),errN=document.getElementById('err-name');
+    const wechat=document.getElementById('fwechat'),errW=document.getElementById('err-wechat');
+    if(!name.value.trim()){name.classList.add('err');errN.textContent='请填写姓名';ok=false}
+    else{name.classList.remove('err');errN.textContent=''}
+    if(!wechat.value.trim()){wechat.classList.add('err');errW.textContent='请填写微信号';ok=false}
+    else{wechat.classList.remove('err');errW.textContent=''}
+    if(!ok)return;
+    document.getElementById('sbTxt').style.display='none';
+    document.getElementById('sbLoad').style.display='inline';
+    document.getElementById('formSubmit').disabled=true;
+    setTimeout(()=>document.getElementById('formSuccess').style.display='flex',1200);
+  });
+  form.querySelectorAll('input,select,textarea').forEach(el=>el.addEventListener('input',()=>{
+    el.classList.remove('err');
+    const err=document.getElementById('err-'+el.name);
+    if(err)err.textContent='';
+  }));
+}
+</script>
 </body>
 </html>
